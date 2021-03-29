@@ -22,14 +22,6 @@ struct Application{
         }
     }
 
-    func start() {
-        Paths.initPaths()
-        initializeData()
-        ActionQueue.instance.addRegularAction(CleanupAction())
-        ActionQueue.instance.start()
-        HttpServer.instance.start()
-    }
-
     func initializeData(){
         IdService.initialize()
         Statics.initialize()
@@ -38,12 +30,6 @@ struct Application{
         ContentContainer.initialize()
         TemplateCache.initialize()
         StaticFileController.instance.ensureLayout()
-    }
-    
-    func stop() {
-        HttpServer.instance.stop()
-        ActionQueue.instance.checkActions()
-        ActionQueue.instance.stop()
     }
 
 }

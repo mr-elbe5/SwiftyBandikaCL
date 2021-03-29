@@ -51,7 +51,6 @@ class HttpServer{
             operating = true
             delegate?.serverStateChanged()
             Log.info("Server has started as \(Configuration.instance.host) on port \(Configuration.instance.webPort)")
-            try serverChannel!.closeFuture.wait()
         }
         catch {
             Log.error("failed to start server: \(error)")
@@ -73,7 +72,5 @@ class HttpServer{
             Log.error("Shutting down server failed: \(error)")
         }
     }
-    
-    
     
 }

@@ -23,6 +23,7 @@ struct Paths{
     static var nextIdFile = "."
     static var staticsFile = "."
     static var usersFile = "."
+    static var logFile = "."
     
     static var resourceDirectory = baseDirectory
     static var webDirectory = resourceDirectory.appendPath("web")
@@ -43,8 +44,13 @@ struct Paths{
         nextIdFile = dataDirectory.appendPath("next.id")
         staticsFile = dataDirectory.appendPath("statics.json")
         usersFile = dataDirectory.appendPath("users.json")
+        logFile = baseDirectory.appendPath("bandika.log")
         assertDirectories()
-        Log.info("home directory is \(baseDirectory)")
+        if !Files.fileExists(path: logFile){
+            _ = Files.saveFile(text: "", path: logFile)
+        }
+        print("log file is \(logFile)")
+        Log.info("base directory is \(baseDirectory)")
         Log.info("data directory is \(dataDirectory)")
         Log.info("file directory is \(fileDirectory)")
         Log.info("template directory is \(templateDirectory)")

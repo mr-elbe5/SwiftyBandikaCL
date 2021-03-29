@@ -7,7 +7,18 @@
 
 import Foundation
 
-Application.instance.start()
-defer {
-    Application.instance.stop()
+Paths.initPaths()
+Application.instance.initializeData()
+ActionQueue.instance.addRegularAction(CleanupAction())
+ActionQueue.instance.start()
+HttpServer.instance.start()
+print("please type 'quit' to stop the server")
+var result = ""
+repeat{
+    result = readLine() ?? ""
 }
+while result != "quit"
+print("stopping")
+HttpServer.instance.stop()
+ActionQueue.instance.checkActions()
+ActionQueue.instance.stop()
