@@ -65,7 +65,7 @@ class FileController: Controller {
             Log.info("loading file \(id)")
             if let data: Data = Files.readFile(path: file.file.path) {
                 let download = request.getBool("download")
-                let contentType = file.file.path.mimeType()
+                let contentType = MimeType.from(file.file.path)
                 return Response(data: data, fileName: file.fileName, contentType: contentType, download: download)
             }
             Log.info("reading file for id \(id) failed")
@@ -80,7 +80,7 @@ class FileController: Controller {
             }
             Log.info("loading preview file \(id)")
             if let pvf = file.previewFile, let data: Data = Files.readFile(path: pvf.path) {
-                let contentType = file.file.path.mimeType()
+                let contentType = MimeType.from(file.file.path)
                 return Response(data: data, fileName: file.fileName, contentType: contentType)
             }
             Log.info("reading preview file for id \(id) failed")

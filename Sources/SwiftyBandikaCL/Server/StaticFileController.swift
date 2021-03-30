@@ -17,7 +17,7 @@ class StaticFileController: Controller {
         //Log.info("loading static file \(path)")
         let fullPath = Paths.webDirectory.appendPath(path.makeRelativePath())
         if let data : Data = Files.readFile(path: fullPath){
-            let contentType = fullPath.mimeType()
+            let contentType = MimeType.from(fullPath)
             return Response(data: data, fileName: fullPath.lastPathComponent(), contentType: contentType)
         }
         Log.info("reading file from \(fullPath) failed")
@@ -30,7 +30,7 @@ class StaticFileController: Controller {
         path.removeFirst(Router.layoutPrefix.count)
         let fullPath = Paths.layoutDirectory.appendPath(path)
         if let data : Data = Files.readFile(path: fullPath){
-            let contentType = fullPath.mimeType()
+            let contentType = MimeType.from(fullPath)
             return Response(data: data, fileName: fullPath.lastPathComponent(), contentType: contentType)
         }
         Log.info("reading file from \(fullPath) failed")

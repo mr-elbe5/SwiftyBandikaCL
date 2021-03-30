@@ -9,8 +9,11 @@
 
 
 import Foundation
+#if os(macOS)
 import Cocoa
-
+#elseif os(Linux)
+import SwiftGD
+#endif
 class MemoryFile{
 
     var name : String
@@ -24,6 +27,7 @@ class MemoryFile{
     }
 
     func createPreview(fileName: String, maxSize: Int) -> MemoryFile?{
+        #if os(macOS)
         if let src = NSImage(data: data){
             if let previewImage : NSImage = src.resizeMaintainingAspectRatio(withSize: NSSize(width: FileData.MAX_PREVIEW_SIDE, height: FileData.MAX_PREVIEW_SIDE)){
                 if let tiff = previewImage.tiffRepresentation, let tiffData = NSBitmapImageRep(data: tiff) {
@@ -35,6 +39,9 @@ class MemoryFile{
                 }
             }
         }
+        #elseif os(Linux)
+
+        #endif
         return nil
     }
 }
