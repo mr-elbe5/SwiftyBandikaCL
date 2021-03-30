@@ -8,6 +8,7 @@
 import Foundation
 
 Paths.initPaths()
+Localizer.initialize(languages: ["en","de"])
 Application.instance.initializeData()
 ActionQueue.instance.addRegularAction(CleanupAction())
 ActionQueue.instance.start()
@@ -18,7 +19,8 @@ repeat{
     result = readLine() ?? ""
 }
 while result != "quit"
-print("stopping")
+print("stopping server...")
 HttpServer.instance.stop()
 ActionQueue.instance.checkActions()
 ActionQueue.instance.stop()
+print("server stopped")

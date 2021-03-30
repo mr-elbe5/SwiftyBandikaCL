@@ -143,7 +143,6 @@ class Request {
         else {
             language = "en"
         }
-        print(language)
     }
 
     func setParam(_ name: String, _ value: Any){
