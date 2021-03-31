@@ -6,10 +6,9 @@ import PackageDescription
 let package = Package(
     name: "SwiftyBandikaCL",
     defaultLocalization: "en",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v10_15)],
     dependencies: [
         .package(url: "https://github.com/apple/swift-nio", from: "2.0.0"),
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.6"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -19,7 +18,6 @@ let package = Package(
             dependencies: [
                 .product(name: "NIO", package: "swift-nio"),
                 .product(name: "NIOHTTP1", package: "swift-nio"),
-                .product(name: "Crypto", package: "swift-crypto"),
             ]),
         .testTarget(
             name: "SwiftyBandikaCLTests",
