@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "BandikaSwiftBase",
+        "repositoryURL": "https://github.com/mr-elbe5/BandikaSwiftBase",
+        "state": {
+          "branch": null,
+          "revision": "135e711c4a2d60e13c3da241da5f86a32c7a99d4",
+          "version": "0.9.0"
+        }
+      },
+      {
         "package": "swift-nio",
         "repositoryURL": "https://github.com/apple/swift-nio",
         "state": {

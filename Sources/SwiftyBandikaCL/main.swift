@@ -6,5 +6,6 @@
 //
 
 import Foundation
+import BandikaSwiftBase
 
 Application.instance.start()
