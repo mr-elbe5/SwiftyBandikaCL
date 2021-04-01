@@ -26,7 +26,7 @@ class FormDateTag: FormLineTag {
                     """.format(language: request.language, [
             "name" : name,
             "value" : value.toHtml(),
-            "language" : App().language]
+            "language" : Application.instance.language]
         ))
         return html
     }

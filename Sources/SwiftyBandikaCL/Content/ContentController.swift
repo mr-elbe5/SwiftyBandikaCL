@@ -349,7 +349,7 @@ class ContentController: Controller {
             }
             data.createPublishedContent(request: request)
             data.changerId = request.userId
-            data.changeDate = App().currentTime
+            data.changeDate = Application.instance.currentTime
             _ = ContentContainer.instance.publishContent(data: data)
             return show(id: data.id, request: request) ?? Response(code: .internalServerError)
         }

@@ -22,6 +22,22 @@ struct Application{
         }
     }
 
+    func start(){
+        Paths.initPaths()
+        Localizer.initialize(languages: ["en","de"])
+        Application.instance.initializeData()
+        ActionQueue.instance.addRegularAction(CleanupAction())
+        ActionQueue.instance.start()
+        Log.info("your shutdown link is 'http://\(Configuration.instance.host):\(Configuration.instance.webPort)/shutdown/\(Statics.instance.shutdownCode)'")
+        HttpServer.instance.start()
+    }
+
+    func stop(){
+        HttpServer.instance.stop()
+        ActionQueue.instance.checkActions()
+        ActionQueue.instance.stop()
+    }
+
     func initializeData(){
         IdService.initialize()
         Statics.initialize()
@@ -34,6 +50,3 @@ struct Application{
 
 }
 
-func App() -> Application {
-    Application.instance
-}

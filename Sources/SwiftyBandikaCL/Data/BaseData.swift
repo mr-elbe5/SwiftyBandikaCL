@@ -102,7 +102,7 @@ class BaseData: TypedData, Identifiable, Codable, Hashable{
         id = IdService.instance.getNextId()
         version = 1
         creatorId = request.userId
-        creationDate = App().currentTime
+        creationDate = Application.instance.currentTime
         changerId = request.userId
         changeDate = creationDate
     }

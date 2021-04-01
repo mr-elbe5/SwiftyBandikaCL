@@ -15,6 +15,7 @@ struct Router {
     static let ajaxPrefix = "/ajax/"
     static let layoutPrefix = "/layout/"
     static let filesPrefix = "/files/"
+    static let shutdownPrefix = "/shutdown/"
     static let htmlSuffix = ".html"
     
     static var instance = Router()
@@ -57,6 +58,23 @@ struct Router {
         // static layout files from layout directory
         if path.hasPrefix(Router.layoutPrefix) {
             return StaticFileController.instance.processLayoutPath(path: path, request: request)
+        }
+        // shutdown request
+        if path.hasPrefix(Router.shutdownPrefix) {
+            let pathSegments = path.split("/")
+            if pathSegments.count > 1 {
+                let shutdownCode = pathSegments[1]
+                if shutdownCode == Statics.instance.shutdownCode {
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        Application.instance.stop()
+                    }
+                    return Response(code: .ok)
+                }
+                else{
+                    Log.warn("shutdown codes don't match")
+                }
+            }
+            return Response(code: .badRequest)
         }
         // static files from [resources]/web/
         return StaticFileController.instance.processPath(path: path, request: request)

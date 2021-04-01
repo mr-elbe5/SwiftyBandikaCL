@@ -44,13 +44,13 @@ class HttpServer{
             .childChannelOption(ChannelOptions.socket(IPPROTO_TCP, TCP_NODELAY), value: 1)
             .childChannelOption(reuseAddrOpt, value: 1)
             .childChannelOption(ChannelOptions.maxMessagesPerRead, value: 1)
-
         do {
             serverChannel = try bootstrap.bind(host: Configuration.instance.host, port: Configuration.instance.webPort)
                 .wait()
             operating = true
             delegate?.serverStateChanged()
             Log.info("Server has started as \(Configuration.instance.host) on port \(Configuration.instance.webPort)")
+            try serverChannel!.closeFuture.wait()
         }
         catch {
             Log.error("failed to start server: \(error)")

@@ -43,5 +43,15 @@ class UserSecurity{
     static func generateSaltString() -> String {
         Data(bytes: generateSalt(), count: 8).base64EncodedString()
     }
+
+    static func generateShutdown() -> [UInt8] {
+        var bytes = [UInt8](repeating: 0, count: 8)
+        _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
+        return bytes
+    }
+
+    static func generateShutdownString() -> String {
+        Data(bytes: generateShutdown(), count: 8).base64EncodedString()
+    }
     
 }

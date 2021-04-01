@@ -14,7 +14,7 @@ class RegularAction : QueuedAction{
     var nextExecution:  Date
 
     override init(){
-        nextExecution = App().currentTime
+        nextExecution = Application.instance.currentTime
         super.init()
     }
 
@@ -34,7 +34,7 @@ class RegularAction : QueuedAction{
 
     func checkNextExecution() {
         if isActive{
-            let now = App().currentTime
+            let now = Application.instance.currentTime
             let next = nextExecution
             if now > next {
                 ActionQueue.instance.addAction(self)

@@ -84,7 +84,7 @@ class TemplatePageData : PageData{
         request.setSessionContent(self)
         request.setContent(self)
         publishedContent = HtmlFormatter.format(src: getTemplateHtml(request: request), indented: false)
-        publishDate = App().currentTime
+        publishDate = Application.instance.currentTime
         request.removeSessionContent()
     }
 

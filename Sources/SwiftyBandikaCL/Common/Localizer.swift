@@ -14,7 +14,7 @@ public struct Localizer{
     static func initialize(languages: Array<String>){
         Log.info("initializing languages")
         for lang in languages{
-            let path = Paths.baseDirectory.appendPath("SwiftyBandikaCL/" + lang + ".lproj")
+            let path = Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL/" + lang + ".lproj")
             if let bundle = Bundle(path: path){
                 instance.bundles[lang] = bundle
                 Log.info("found language bundle for '\(lang)'")

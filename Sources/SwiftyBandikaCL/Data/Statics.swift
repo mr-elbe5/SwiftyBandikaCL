@@ -31,6 +31,9 @@ class Statics: Codable{
             if let statics : Statics = Statics.fromJSON(encoded: str){
                 instance = statics
                 Log.info("loaded app statics")
+                if !statics.save(){
+                    Log.warn("statics could not be saved")
+                }
             }
         }
     }
@@ -40,25 +43,29 @@ class Statics: Codable{
         case defaultPassword
         case defaultLocale
         case cleanupInterval
+        case shutdownCode
     }
     
     var salt: String
     var defaultPassword: String
     var defaultLocale: Locale
     var cleanupInterval : Int = 10
+    var shutdownCode : String
     
     required init(){
         salt = ""
         defaultPassword = ""
         defaultLocale = Locale(identifier: "en")
+        shutdownCode = ""
     }
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: SectionDataCodingKeys.self)
-        salt = try values.decodeIfPresent(String.self, forKey: .salt) ?? ""
+        salt = try values.decodeIfPresent(String.self, forKey: .salt) ?? UserSecurity.generateSaltString()
         defaultPassword = try values.decodeIfPresent(String.self, forKey: .defaultPassword) ?? ""
         defaultLocale = try values.decodeIfPresent(Locale.self, forKey: .defaultLocale) ?? Locale.init(identifier: "en")
         cleanupInterval = try values.decodeIfPresent(Int.self, forKey: .cleanupInterval) ?? 10
+        shutdownCode = try values.decodeIfPresent(String.self, forKey: .shutdownCode) ?? UserSecurity.generateShutdownString()
     }
     
     func encode(to encoder: Encoder) throws {
@@ -66,19 +73,21 @@ class Statics: Codable{
         try container.encode(salt, forKey: .salt)
         try container.encode(defaultPassword, forKey: .defaultPassword)
         try container.encode(defaultLocale, forKey: .defaultLocale)
+        try container.encode(shutdownCode, forKey: .shutdownCode)
     }
     
     func initDefaults(){
         salt = UserSecurity.generateSaltString()
         defaultPassword =  UserSecurity.encryptPassword(password: "pass", salt: salt)
         defaultLocale = Locale(identifier: "en")
+        shutdownCode = UserSecurity.generateShutdownString()
     }
     
     func save() -> Bool{
         Log.info("saving app statics")
         let json = toJSON()
         if !Files.saveFile(text: json, path: Paths.staticsFile){
-            Log.warn("app statics could not be saved")
+            Log.warn("\(Paths.staticsFile) not saved")
             return false
         }
         return true
