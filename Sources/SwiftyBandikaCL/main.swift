@@ -8,4 +8,5 @@
 import Foundation
 import BandikaSwiftBase
 
-Application.instance.start()
+Paths.initPaths(baseDirectory: FileManager.default.currentDirectoryPath, resourceDirectory: FileManager.default.currentDirectoryPath)
+Application.instance.startApplication()
