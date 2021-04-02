@@ -15,7 +15,7 @@ struct Application : RouterDelegate{
     static var instance = Application()
 
     public func startApplication(){
-        initializeLocalizer(languages: ["en", "de"])
+        Localizer.instance.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         Application.instance.initializeData()
         ActionQueue.instance.addRegularAction(CleanupAction())
         ActionQueue.instance.start()
@@ -37,20 +37,6 @@ struct Application : RouterDelegate{
         ContentContainer.initialize()
         TemplateCache.initialize()
         StaticFileController.instance.ensureLayout()
-    }
-
-    func initializeLocalizer(languages: Array<String>){
-        Log.info("initializing languages")
-        for lang in languages{
-            let path = Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL/" + lang + ".lproj")
-            if let bundle = Bundle(path: path){
-                Localizer.instance.bundles[lang] = bundle
-                Log.info("found language bundle for '\(lang)'")
-            }
-            else{
-                Log.warn("language bundle not found at \(path)")
-            }
-        }
     }
 
 }
