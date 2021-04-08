@@ -8,19 +8,39 @@
 */
 
 import Foundation
+import SwiftyHttpServer
+import SwiftyLog
+import SwiftyStringExtensions
 import BandikaSwiftBase
 
 struct Application : RouterDelegate{
 
     static var instance = Application()
 
+    func getShutdownCode() -> String {
+        Statics.instance.shutdownCode
+    }
+
     public func startApplication(){
-        initializeLocalizer(languages: ["en", "de"])
+        Log.useLog(level: .debug)
+        if let url = URL(string: Paths.logFile) {
+            if !Log.useLogFile(url: url){
+                print("log file not found")
+            }
+        }
+        Log.useConsoleOutput(flag: true)
+        StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
+        TagFactory.addBasicTypes()
+        TagFactory.addBandikaTypes()
+        ControllerCache.addBandikaTypes()
         Application.instance.initializeData()
         ActionQueue.instance.addRegularAction(CleanupAction())
         ActionQueue.instance.start()
         Log.info("Your shutdown link is 'http://\(Configuration.instance.host):\(Configuration.instance.webPort)/shutdown/\(Statics.instance.shutdownCode)'")
-        HttpServer.instance.start()
+        let router = BandikaRouter()
+        router.delegate = self
+        HttpServer.instance.router = router
+        HttpServer.instance.start(host: Configuration.instance.host, port: Configuration.instance.webPort)
     }
 
     public func stopApplication(){
@@ -28,6 +48,7 @@ struct Application : RouterDelegate{
         ActionQueue.instance.checkActions()
         ActionQueue.instance.stop()
     }
+
 
     public func initializeData(){
         IdService.initialize()
@@ -37,20 +58,6 @@ struct Application : RouterDelegate{
         ContentContainer.initialize()
         TemplateCache.initialize()
         StaticFileController.instance.ensureLayout()
-    }
-
-    func initializeLocalizer(languages: Array<String>){
-        Log.info("initializing languages")
-        for lang in languages{
-            let path = Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL/" + lang + ".lproj")
-            if let bundle = Bundle(path: path){
-                Localizer.instance.bundles[lang] = bundle
-                Log.info("found language bundle for '\(lang)'")
-            }
-            else{
-                Log.warn("language bundle not found at \(path)")
-            }
-        }
     }
 
 }
