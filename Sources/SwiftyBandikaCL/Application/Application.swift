@@ -21,7 +21,7 @@ struct Application : RouterDelegate{
         Statics.instance.shutdownCode
     }
 
-    public func startApplication(){
+    public func
         Log.useLog(level: .debug)
         if let url = URL(string: Paths.logFile) {
             if !Log.useLogFile(url: url){
@@ -33,6 +33,7 @@ struct Application : RouterDelegate{
         TagFactory.addBasicTypes()
         TagFactory.addBandikaTypes()
         ControllerCache.addBandikaTypes()
+        Localizer.instance.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         Application.instance.initializeData()
         ActionQueue.instance.addRegularAction(CleanupAction())
         ActionQueue.instance.start()
@@ -59,5 +60,3 @@ struct Application : RouterDelegate{
         TemplateCache.initialize()
         StaticFileController.instance.ensureLayout()
     }
-
-}
