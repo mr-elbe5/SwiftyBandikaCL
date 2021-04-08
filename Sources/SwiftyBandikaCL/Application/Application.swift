@@ -28,7 +28,7 @@ struct Application : RouterDelegate{
                 print("log file not found")
             }
         }
-        //Log.useConsoleOutput(flag: true)
+        Log.useConsoleOutput(flag: true)
         StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         TagFactory.addBasicTypes()
         TagFactory.addBandikaTypes()
