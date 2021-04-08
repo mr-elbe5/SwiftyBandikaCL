@@ -21,25 +21,26 @@ struct Application : RouterDelegate{
         Statics.instance.shutdownCode
     }
 
-    public func
+    public func startApplication(){
         Log.useLog(level: .debug)
         if let url = URL(string: Paths.logFile) {
             if !Log.useLogFile(url: url){
                 print("log file not found")
             }
         }
-        Log.useConsoleOutput(flag: true)
+        //Log.useConsoleOutput(flag: true)
         StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         TagFactory.addBasicTypes()
         TagFactory.addBandikaTypes()
         ControllerCache.addBandikaTypes()
-        Localizer.instance.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
+        StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         Application.instance.initializeData()
         ActionQueue.instance.addRegularAction(CleanupAction())
         ActionQueue.instance.start()
         Log.info("Your shutdown link is 'http://\(Configuration.instance.host):\(Configuration.instance.webPort)/shutdown/\(Statics.instance.shutdownCode)'")
         let router = BandikaRouter()
         router.delegate = self
+        router.shutdownCode = Statics.instance.shutdownCode
         HttpServer.instance.router = router
         HttpServer.instance.start(host: Configuration.instance.host, port: Configuration.instance.webPort)
     }
@@ -60,3 +61,4 @@ struct Application : RouterDelegate{
         TemplateCache.initialize()
         StaticFileController.instance.ensureLayout()
     }
+}
