@@ -5,3 +5,5 @@ Backup
 .build
 bandika.log
 SWCL
+.swiftpm/xcode/package.xcworkspace/xcuserdata/*
+
