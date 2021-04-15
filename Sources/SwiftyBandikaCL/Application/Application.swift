@@ -22,7 +22,7 @@ struct Application : RouterDelegate{
     }
 
     public func startApplication(){
-        Log.useLog(level: .debug)
+        Log.useLog(level: .info)
         if let url = URL(string: Paths.logFile) {
             if !Log.useLogFile(url: url){
                 print("log file not found")
@@ -30,6 +30,7 @@ struct Application : RouterDelegate{
         }
         Log.useConsoleOutput(flag: true)
         StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
+        ServerPageController.instance.useBaseResources()
         TagFactory.addBasicTypes()
         TagFactory.addBandikaTypes()
         ControllerCache.addBandikaTypes()
