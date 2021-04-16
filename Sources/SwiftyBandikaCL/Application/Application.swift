@@ -31,6 +31,7 @@ struct Application : RouterDelegate{
         Log.useConsoleOutput(flag: true)
         StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         ServerPageController.instance.useBaseResources()
+        StaticFileController.instance.useBaseFiles()
         TagFactory.addBasicTypes()
         TagFactory.addBandikaTypes()
         ControllerCache.addBandikaTypes()
