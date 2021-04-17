@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/mr-elbe5/BandikaSwiftBase",
         "state": {
           "branch": null,
-          "revision": "c6e1ca01ceef04c9f26b6453fefb8c243c83a727",
-          "version": "1.1.22"
+          "revision": "c7f109e99ad762d9625e5ee37112c55231b83a34",
+          "version": "1.1.26"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/mr-elbe5/SwiftyHttpServer",
         "state": {
           "branch": null,
-          "revision": "92ffb888e438eed0876e2b2cc2af7fca1e745d21",
-          "version": "1.1.14"
+          "revision": "ee9b411d8288266795ff9226aa7e37f959a34316",
+          "version": "1.1.16"
         }
       },
       {
