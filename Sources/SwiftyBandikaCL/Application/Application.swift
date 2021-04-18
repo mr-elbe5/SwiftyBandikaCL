@@ -45,15 +45,14 @@ struct Application : RouterDelegate{
         Log.info("Your shutdown link is 'http://\(Configuration.instance.host):\(Configuration.instance.webPort)/shutdown/\(Statics.instance.shutdownCode)'")
         HttpServer.instance.router = router
         HttpServer.instance.start(host: Configuration.instance.host, port: Configuration.instance.webPort)
-        CFRunLoopRun()
+        dispatchMain()
     }
 
     public func stopApplication(){
         HttpServer.instance.stop()
         ActionQueue.instance.checkActions()
         ActionQueue.instance.stop()
-        CFRunLoopStop(CFRunLoopGetCurrent())
-        Log.info("application stopped")
+        Log.info("application stopping")
         exit(0)
     }
 
