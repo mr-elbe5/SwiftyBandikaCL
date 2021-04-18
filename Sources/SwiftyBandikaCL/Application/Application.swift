@@ -29,6 +29,7 @@ struct Application : RouterDelegate{
             }
         }
         Log.useConsoleOutput(flag: true)
+        Log.info("logging with level \(Log.logLevel)")
         StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         ServerPageController.instance.useBaseResources()
         StaticFileController.instance.useBaseFiles()
