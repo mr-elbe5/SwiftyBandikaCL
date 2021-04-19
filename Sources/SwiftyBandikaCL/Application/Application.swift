@@ -16,7 +16,7 @@ import BandikaSwiftBase
 struct Application : RouterDelegate{
 
     static var instance = Application()
-
+    
     func getShutdownCode() -> String {
         Statics.instance.shutdownCode
     }
@@ -29,28 +29,31 @@ struct Application : RouterDelegate{
             }
         }
         Log.useConsoleOutput(flag: true)
+        Log.info("logging with level \(Log.logLevel)")
         StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         ServerPageController.instance.useBaseResources()
         StaticFileController.instance.useBaseFiles()
         TagFactory.addBasicTypes()
         TagFactory.addBandikaTypes()
         ControllerCache.addBandikaTypes()
-        StringLocalizer.initialize(languages: ["en", "de"], bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL"))
         Application.instance.initializeData()
         ActionQueue.instance.addRegularAction(CleanupAction())
         ActionQueue.instance.start()
-        Log.info("Your shutdown link is 'http://\(Configuration.instance.host):\(Configuration.instance.webPort)/shutdown/\(Statics.instance.shutdownCode)'")
         let router = BandikaRouter()
         router.delegate = self
         router.shutdownCode = Statics.instance.shutdownCode
+        Log.info("Your shutdown link is 'http://\(Configuration.instance.host):\(Configuration.instance.webPort)/shutdown/\(Statics.instance.shutdownCode)'")
         HttpServer.instance.router = router
         HttpServer.instance.start(host: Configuration.instance.host, port: Configuration.instance.webPort)
+        dispatchMain()
     }
 
     public func stopApplication(){
         HttpServer.instance.stop()
         ActionQueue.instance.checkActions()
         ActionQueue.instance.stop()
+        Log.info("application stopping")
+        exit(0)
     }
 
 
