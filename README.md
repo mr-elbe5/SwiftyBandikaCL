@@ -1,3 +1,7 @@
+This project is discontinued on GitHub.
+
+You can find it on Gitea at https://git.elbe5cloud.de/miro/SwiftyBandikaCL
+
 # SwiftyBandikaCL
 
 A CMS server app for the Mac and Linux, based on Swift, NIO and JSON Persistance
