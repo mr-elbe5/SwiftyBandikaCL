@@ -8,7 +8,7 @@
 */
 
 import Foundation
-import BandikaSwiftBase
+
 
 struct Application : RouterDelegate{
 
@@ -32,8 +32,6 @@ struct Application : RouterDelegate{
         if !StringLocalizer.initialize(languages: languages, bundleLocation: Paths.baseDirectory.appendPath("Sources/SwiftyBandikaCL")){
             Log.warn("not all languages could be loaded")
         }
-        ServerPageController.instance.useBaseResources()
-        StaticFileController.instance.useBaseFiles()
         TagFactory.addBasicTypes()
         TagFactory.addBandikaTypes()
         ControllerCache.addBandikaTypes()

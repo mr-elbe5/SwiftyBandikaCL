@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import BandikaSwiftBase
 
 Paths.initPaths(baseDirectory: FileManager.default.currentDirectoryPath, resourceDirectory: FileManager.default.currentDirectoryPath)
 Application.instance.startApplication()
